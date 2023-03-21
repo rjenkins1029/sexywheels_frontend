@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useOutletContext } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { getUserByUsername } from "../API";
+import { getUser } from "../utils/API";
 import Title from "./Title";
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
@@ -11,17 +11,16 @@ import EditUserInfo from "./EditUserInfo";
 const UserInfo = () => {
   const [token] = useOutletContext();
   const [user, setUser] = useState({});
-  const [shippingAddress, setShippingAddress] = useState({})
-  const [billingAddress, setBillingAddress] = useState({})
+  
 
   useEffect(() => {
-    async function getUserByUsernameInfo() {
-        const results = await getUserByUsername(token);
+    async function getUserInfo() {
+        const results = await getUser(token);
         setUser(results);
-        setShippingAddress(results.shippingAddress);
-        setBillingAddress(results.billingAddress);
+        console.log(results)
+      
     }
-    getUserByUsernameInfo();
+    getUserInfo();
   }, [token]);
 
   const { firstName, lastName, email, phone } = user;
@@ -44,34 +43,8 @@ const UserInfo = () => {
                     <Typography> {phone} </Typography>
                 </Paper>
             </Grid>
-            <Grid item xs={4}>
-                <Paper
-                    sx={{
-                        p: 2,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        height: 150,
-                    }}
-                >
-                    <Typography component="p" variant="h6" color="text.secondary" sx={{ flex: 1 }}> Shipping Address </Typography>
-                    <Typography> {shippingAddress.address} </Typography>
-                    <Typography> {shippingAddress.city}, {shippingAddress.state} {shippingAddress.zip} </Typography>
-                </Paper>
-            </Grid>
-            <Grid item xs={4}>
-                <Paper
-                    sx={{
-                        p: 2,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        height: 150,
-                    }}
-                >
-                    <Typography component="p" variant="h6" color="text.secondary" sx={{ flex: 1 }}> Billing Address </Typography>
-                    <Typography> {billingAddress.address} </Typography>
-                    <Typography> {billingAddress.city}, {billingAddress.state} {billingAddress.zip} </Typography>
-                </Paper>
-            </Grid>
+        
+            
             <Grid item xs={12}>
                 <Paper
                     sx={{

@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState, useEffect } from 'react';
-import { registerUser } from '../../../API';
+import { registerUser } from '../utils/API';
 import { useOutletContext, useNavigate } from 'react-router-dom';
 import Loading from '../components/Loading';
 
@@ -40,16 +40,7 @@ export default function Register() {
     const [errorMessage, setErrorMessage] = useState('');
     const [token, setToken] = useOutletContext();
     const [isLoading, setIsLoading] = useState(false);
-    const [checked, setChecked] = React.useState(false);
-    const [streetShipping, setStreetShipping] = useState('');
-    const [cityShipping, setCityShipping] = useState('');
-    const [stateShipping, setStateShipping] = useState('');
-    const [zipShipping, setZipShipping] = useState('');
-    const [streetBilling, setStreetBilling] = useState('');
-    const [cityBilling, setCityBilling] = useState('');
-    const [stateBilling, setStateBilling] = useState('');
-    const [zipBilling, setZipBilling] = useState('');
-    const [disabled, setDisabled] = useState(false);
+    
 
     useEffect(() => {
         if (token) {
@@ -57,28 +48,7 @@ export default function Register() {
         }
     }, [token, navigate]);
       
-    const handleAddressChange = (event, setShippingFunction, setBillingFunction) => {
-        setShippingFunction(event.target.value);
-        if (checked) {
-            setBillingFunction(event.target.value);
-        }
-    }
-    const handleCheckboxChange = (event) => {
-        if (!checked) {
-            setStreetBilling(streetShipping);
-            setCityBilling(cityShipping);
-            setStateBilling(stateShipping);
-            setZipBilling(zipShipping);
-        } else {
-            setStreetBilling('');
-            setCityBilling('');
-            setStateBilling('');
-            setZipBilling('');
-        }
-        setChecked(event.target.checked);
-        setDisabled(event.target.checked);
-      };
-
+    
     const handleSubmit = async (event) => {
         event.preventDefault();
         setIsLoading(true);
@@ -115,26 +85,9 @@ export default function Register() {
         const lastName = data.get('lastName');
         const phone = data.get('phone');
         const email = data.get('email');
-        // const streetShipping = data.get('streetShipping');
-        // const cityShipping = data.get('cityShipping');
-        // const stateShipping = data.get('stateShipping');
-        // const zipShipping = data.get('zipShipping');
-        // const streetBilling = data.get('streetBilling');
-        // const cityBilling = data.get('cityBilling');
-        // const stateBilling = data.get('stateBilling');
-        // const zipBilling = data.get('zipBilling');
-        const shippingAddress = {
-            "address": streetShipping,
-            "city": cityShipping,
-            "state": stateShipping,
-            "zip": Number(zipShipping)
-        };
-        const billingAddress = {
-            "address": streetBilling,
-            "city": cityBilling,
-            "state": stateBilling,
-            "zip": Number(zipBilling)
-        };
+        const username = data.get('username');
+        
+       
 
         const userData = {
             firstName,
@@ -142,11 +95,12 @@ export default function Register() {
             password,
             phone,
             email,
-            shippingAddress,
-            billingAddress
+            username
+            
         };
-
+        // console.log(userData);
         const registeredUser = await registerUser(userData);
+        // console.log(registeredUser);
         if (registeredUser.error) {
             setErrorMessage(registeredUser.message);
         } else {
@@ -199,6 +153,16 @@ export default function Register() {
                                 label="Last Name"
                                 name="lastName"
                                 autoComplete="family-name"
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                required
+                                fullWidth
+                                id="username"
+                                label="Username"
+                                name="username"
+                                autoComplete="username"
                                 />
                             </Grid>
                             {
@@ -324,160 +288,9 @@ export default function Register() {
                                     autoComplete="phone"
                                 />
                             </Grid>
-                            <Grid item xs={12}>
-                                <Box
-                                sx={{
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    alignItems: 'center',
-                                }}
-                                >
-                                    <Typography component="h2" variant="h6">
-                                        Shipping Address
-                                    </Typography>
-                                </Box>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                required
-                                fullWidth
-                                id="streetShipping"
-                                label="Street"
-                                name="streetShipping"
-                                autoComplete="street"
-                                value={streetShipping}
-                                onChange={(event) => {
-                                    handleAddressChange(event, setStreetShipping, setStreetBilling);
-                                }}
-                                />
-                            </Grid>
-                            <Grid item xs={9}>
-                                <TextField
-                                required
-                                fullWidth
-                                id="cityShipping"
-                                label="City"
-                                name="cityShipping"
-                                autoComplete="city"
-                                value={cityShipping}
-                                onChange={(event) => {
-                                    handleAddressChange(event, setCityShipping, setCityBilling);
-                                }}
-                                />
-                            </Grid>
-                            <Grid item xs={3}>
-                                <TextField
-                                required
-                                fullWidth
-                                id="stateShipping"
-                                label="State"
-                                name="stateShipping"
-                                autoComplete="state"
-                                value={stateShipping}
-                                onChange={(event) => {
-                                    handleAddressChange(event, setStateShipping, setStateBilling);
-                                }}
-                                />
-                            </Grid>
-                            <Grid item xs={6}>
-                                <TextField
-                                required
-                                fullWidth
-                                id="zipShipping"
-                                label="Zip"
-                                name="zipShipping"
-                                autoComplete="zip"
-                                value={zipShipping}
-                                onChange={(event) => {
-                                    handleAddressChange(event, setZipShipping, setZipBilling);
-                                }}
-                                />
-                            </Grid>
-                            <Grid item xs={6}>
-                                <FormControlLabel
-                                    label="Use Same Address For Billing?"
-                                    control={
-                                        <Checkbox
-                                            checked={checked}
-                                            onChange={handleCheckboxChange}
-                                            inputProps={{ 'aria-label': 'controlled' }}
-                                        />
-                                    }
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Box
-                                sx={{
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    alignItems: 'center',
-                                }}
-                                >
-                                    <Typography component="h2" variant="h6">
-                                        Billing Address
-                                    </Typography>
-                                </Box>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                required
-                                fullWidth
-                                id="streetBilling"
-                                label="Street"
-                                name="streetBilling"
-                                autoComplete="street"
-                                value={streetBilling}
-                                onChange={(event) => {
-                                    handleAddressChange(event, setStreetBilling);
-                                }}
-                                disabled={disabled}
-                                />
-                            </Grid>
-                            <Grid item xs={9}>
-                                <TextField
-                                required
-                                fullWidth
-                                id="cityBilling"
-                                label="City"
-                                name="cityBilling"
-                                autoComplete="city"
-                                value={cityBilling}
-                                onChange={(event) => {
-                                    handleAddressChange(event, setCityBilling);
-                                }}
-                                disabled={disabled}
-                                />
-                            </Grid>
-                            <Grid item xs={3}>
-                                <TextField
-                                required
-                                fullWidth
-                                id="stateBilling"
-                                label="State"
-                                name="stateBilling"
-                                autoComplete="state"
-                                value={stateBilling}
-                                onChange={(event) => {
-                                    handleAddressChange(event, setStateBilling);
-                                }}
-                                disabled={disabled}
-                                />
-                            </Grid>
-                            <Grid item xs={6}>
-                                <TextField
-                                required
-                                fullWidth
-                                id="zipBilling"
-                                label="Zip"
-                                name="zipBilling"
-                                autoComplete="zip"
-                                value={zipBilling}
-                                onChange={(event) => {
-                                    handleAddressChange(event, setZipBilling);
-                                }}
-                                disabled={disabled}
-                                />
-                            </Grid>
+                        
+                                
+                                   
                         </Grid>
                         <Button
                         type="submit"

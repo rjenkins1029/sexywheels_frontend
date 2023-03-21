@@ -36,12 +36,12 @@ const ListItems = ({ setCurrentView }) => {
         <ListItemText primary="Users" />
       </ListItemButton>
       <ListItemButton onClick={() => {
-        setCurrentView('puppies')
+        setCurrentView('cars')
       }}>
         <ListItemIcon>
            
         </ListItemIcon>
-      <ListItemText primary="Puppies" />
+      <ListItemText primary="Cars" />
       </ListItemButton>
     </React.Fragment>
   )

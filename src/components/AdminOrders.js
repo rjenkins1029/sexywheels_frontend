@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Paper, Grid, Table, TableHead, TableCell, TableRow, TableBody, Link, CardActionArea, Button } from "@mui/material";
 import { useState, useEffect } from 'react';
-import { getAllOrders } from '../API';
+import { getAllOrders } from '../utils/API';
 import Title from './Title';
 const AdminOrders = ({ adminToken }) => {
     const [orders, setOrders] = useState([]);

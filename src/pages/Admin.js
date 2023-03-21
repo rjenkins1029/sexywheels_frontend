@@ -14,14 +14,12 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItems from '../components/ListItems';
 import { useState, useEffect } from 'react';
-import { useOutletContext } from 'react-router-dom';
-import AdminDashboard from '../components/AdminDashboard';
+import { useOutletContext, useNavigate } from 'react-router-dom';
 import AdminOrders from '../components/AdminOrders';
 import AdminCars from '../components/AdminCars';
 import AdminUsers from '../components/AdminUsers';
-// import Chart from './Chart';
-// import Deposits from './Deposits';
-// import Orders from './Orders';
+import Loading from '../components/Loading';
+
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -34,7 +32,9 @@ function Copyright(props) {
     </Typography>
   );
 }
+
 const drawerWidth = 240;
+
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
     '& .MuiDrawer-paper': {
@@ -60,23 +60,37 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     },
   }),
 );
+
 const mdTheme = createTheme();
+
 function DashboardContent() {
+    const navigate = useNavigate();
     const [open, setOpen] = useState(true);
-    const [currentView, setCurrentView] = useState('dashboard');
+    const [currentView, setCurrentView] = useState('orders');
     const [isLoading, setIsLoading] = useState(false);
-    const [token, setToken, adminToken, setAdminToken, cartItems, setCartItems] = useOutletContext();
+    const [token, setToken, adminToken, setAdminToken, cartItems, setCartItems, checkoutId, setCheckoutId] = useOutletContext();
+
     const toggleDrawer = () => {
         setOpen(!open);
     };
+
     const renderAdmin = () => {
         setIsLoading(true);
         setIsLoading(false);
     }
+
     useEffect(() => {
-        renderAdmin();
+      if (!adminToken) {
+        navigate('/home')
+      }
+      renderAdmin();
     }, [currentView])
+
     return (
+      <>
+        {
+            isLoading && <Loading />
+        }
         <ThemeProvider theme={mdTheme}>
             <Box sx={{ display: 'flex' }}>
                 <CssBaseline />
@@ -91,7 +105,7 @@ function DashboardContent() {
                 >
                     <IconButton onClick={toggleDrawer}>
                         {
-                            !open
+                            !open 
                             ?
                             <ChevronRightIcon />
                             :
@@ -117,26 +131,25 @@ function DashboardContent() {
                     overflow: 'auto',
                 }}
                 >
-                    <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+                    <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
                         {
-                            currentView === 'dashboard' && <AdminDashboard adminToken={adminToken} />
+                            currentView === 'orders' && <AdminOrders adminToken={adminToken} setIsLoading={setIsLoading} />
                         }
                         {
-                            currentView === 'orders' && <AdminOrders adminToken={adminToken} />
+                            currentView === 'users' && <AdminUsers adminToken={adminToken} setIsLoading={setIsLoading} />
                         }
                         {
-                            currentView === 'users' && <AdminUsers adminToken={adminToken} />
-                        }
-                        {
-                            currentView === 'cars' && <AdminCars adminToken={adminToken} />
+                            currentView === 'cars' && <AdminCars adminToken={adminToken} setIsLoading={setIsLoading} />
                         }
                     </Container>
                     <Copyright sx={{ pt: 4 }} />
                 </Box>
             </Box>
         </ThemeProvider>
+      </>
     );
 }
+
 export default function Admin() {
   return <DashboardContent />;
 }

@@ -1,33 +1,22 @@
-import { Outlet, Link, useNavigate, useLocation } from "react-router-dom";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import ButtonAppBar from "../components/NavBar";
 import Container from "@mui/material/Container";
-import { getCart } from "../../../API";
+import { getCart, getStripeCheckout, createOrder, createGuestOrder } from "../utils/API.js";
 
 export default function Root() {
     const [token, setToken] = useState(localStorage.getItem('token'));
     const [adminToken, setAdminToken] = useState(localStorage.getItem('adminToken'));
-    const [cartItems, setCartItems] = useState([]);
+    const [checkoutId, setCheckoutId] = useState(localStorage.getItem('checkoutId'));
+    const [cartItems, setCartItems] = useState(localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : []);
     const navigate = useNavigate();
     const location = useLocation();
     const page = location.pathname;
 
-    const renderRoot = async () => {
-        if (token) {
-            const userCart = await getCart(token);
-            setCartItems(userCart.cartItems);
-        } else {
-            const storedCartItems = JSON.parse(localStorage.getItem('cartItems'))
-            if (storedCartItems) {
-                setCartItems(storedCartItems);
-            }
-        }
-    }
     useEffect(() => {
         if (page === "/") {
             navigate("/home");
         }
-        renderRoot();
     }, [token]);
 
     return (
@@ -41,7 +30,7 @@ export default function Root() {
                 setCartItems={setCartItems}
             />
             <Container sx={{ marginY: 5, minWidth: '980px' }}>
-                <Outlet context={[token, setToken, adminToken, setAdminToken, cartItems, setCartItems]}/>
+                <Outlet context={[token, setToken, adminToken, setAdminToken, cartItems, setCartItems, checkoutId, setCheckoutId]}/>
             </Container>
         </> 
     );

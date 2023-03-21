@@ -4,7 +4,7 @@ import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import * as React from 'react';
 import { Button, CardActions } from '@mui/material';
-import { addCarToCart, getCart, getCarById } from "../API";
+import { addCarToCart, getCart, getCarById } from "../utils/API";
 
 
 const Car = ({ id, imgURL, name, price, car, setFeaturedCar, setIsLoading, token, cartItems, setCartItems, inCart }) => {

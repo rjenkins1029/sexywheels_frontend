@@ -8,7 +8,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import { Button, CardActionArea, CardActions } from '@mui/material';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import { addCarToCart, getCart, getCarById } from "../API";
+import { addCarToCart, getCart, getCarById } from "../utils/API";
 
 
 const FeaturedDetails = ({ featuredCar, setFeaturedCar, setIsLoading, token, cartItems, setCartItems }) => {

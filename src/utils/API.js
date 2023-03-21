@@ -1,13 +1,13 @@
-import axios from 'axios';
+
 const BASE_URL = 'https://sexywheels-api.onrender.com/api';
-export const getUserByUsername = async (email, password) => {
+export const getUserByUsername = async (username, password) => {
     const response = await fetch(`${BASE_URL}/users`, {
         method: "POST",
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            email: `${email}`,
+            username: `${username}`,
             password: `${password}`
         })
     });
@@ -45,9 +45,9 @@ export const registerUser = async ({
     password,
     phone,
     email,
-    shippingAddress,
-    billingAddress
+    username
 }) => {
+  console.log(username, "USERNAME")
     const response = await fetch(`${BASE_URL}/users/register`, {
         method: "POST",
         headers: {
@@ -55,15 +55,16 @@ export const registerUser = async ({
         },
         // not sure if the body object needs to be setup like it is in loginUser below or not
         body: JSON.stringify({
-            firstName: `${firstName}`,
-            lastName: `${lastName}`,
-            password: `${password}`,
+            firstName: firstName,
+            lastName: lastName,
+            username: username,
+            password: password,
             phone: phone,
-            email: `${email}`,
-            shippingAddress: shippingAddress,
-            billingAddress: billingAddress
+            email: email,
+            
         })
     });
+    console.log(response,"STRING")
     const data = await response.json();
     return data;
 }
@@ -89,18 +90,22 @@ export const deleteCart = async (token) => {
     const data = await response.json();
     return data;
 }
-export const loginUser = async (email, password) => {
+export const loginUser = async (username, password) => {
+  // console.log(password, "PASSWORD ELIJAH")
     const response = await fetch(`${BASE_URL}/users/login`, {
         method: "POST",
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            email: `${email}`,
-            password: `${password}`
+            username: username,
+            password: password
         })
     });
+    // console.log(response, "responsey boys")
+    
     const data = await response.json();
+    console.log(data , "RICKY")
     return data;
 }
 
@@ -138,6 +143,16 @@ export const addCarToCart = async (token, carId) => {
     const data = await response.json();
     return data;
 }
+
+export const getCarCategories = async () => {
+  const response = await fetch(`${BASE_URL}/cars/categories`, {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+  });
+  const data = await response.json();
+  return data;
+}
 export const getCarById = async (carId) => {
     const response = await fetch(`${BASE_URL}/cars/${carId}`, {
         headers: {
@@ -169,10 +184,54 @@ export const getCarsByCategory = async (categoryId) => {
 }
 export async function getAPIHealth() {
     try {
-      const { data } = await axios.get('/api/health');
+      const { data } = await fetch('/api/health');
       return data;
     } catch (err) {
       console.error(err);
       return { healthy: false };
     }
   }
+
+  export const getUser = async (token) => {
+    const response = await fetch(`${BASE_URL}/users/me`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+    });
+    const data = await response.json();
+    return data;
+}
+export const getOrders = async (token) => {
+    const response = await fetch(`${BASE_URL}/orders`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+    });
+    const data = await response.json();
+    return data;
+}
+
+export const getStripeCheckout = async (checkoutId) => {
+  const response = await fetch(`${BASE_URL}/cart/stripe/${checkoutId}`, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+  });
+  const data = await response.json();
+  return data;
+}
+export const stripeCheckoutSession = async (cartItems) => {
+  const response = await fetch(`${BASE_URL}/create-checkout-session`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+          cartItems
+      })
+  });
+  const data = await response.json();
+  return data;
+}

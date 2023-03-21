@@ -235,3 +235,33 @@ export const stripeCheckoutSession = async (cartItems) => {
   const data = await response.json();
   return data;
 }
+
+export const createGuestOrder = async (orderItems, date) => {
+  const response = await fetch(`${BASE_URL}/orders/guest`, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+          date,
+          orderItems
+      })
+  });
+  const data = await response.json();
+  return data;
+}
+
+export const createOrder = async (token, date) => {
+  const response = await fetch(`${BASE_URL}/orders/submit_order`, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+          date: `${date}`
+      })
+  });
+  const data = await response.json();
+  return data;
+}

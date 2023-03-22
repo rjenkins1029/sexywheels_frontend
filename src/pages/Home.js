@@ -7,10 +7,32 @@ import { Container } from "@mui/system";
 import FeaturedDetails from "../components/FeaturedDetails";
 import Loading from "../components/Loading";
 import { Box, Button, Autocomplete, TextField, Grid } from "@mui/material";
+import React from 'react';
+import { Container, Card } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 /**
  * COMPONENT
  */
 const Home = () => {
+
+    return (
+        <>
+          <Container style={{
+            textAlign: "center",
+          }}>
+            <Link to="../car">
+              <img style={{ fontSize: "48px", padding: "3%" }}
+                src="https://diecastmotorsports.files.wordpress.com/2023/01/cropped-07-shellby-gt500-10-speed-machines-on-orange-track-1200px.png"></img>
+            </Link>
+            <Card.Text className='mt-4'
+              style={{ textAlign: 'center', fontSize: '40px', fontWeight: '800' }}>
+              <img src='https://st.depositphotos.com/1008768/3366/i/450/depositphotos_33667401-stock-photo-free-shipping-sign.jpg' width='10%' />
+              Enjoy Free Shipping on All Orders!
+            </Card.Text>
+          </Container>
+        </>
+      )
+      
     const [isLoading, setIsLoading] = useState(false);
     const [cars, setCars] = useState([]);
     const [featuredCar, setFeaturedCar] = useState({});

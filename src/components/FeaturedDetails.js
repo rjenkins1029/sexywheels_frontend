@@ -1,8 +1,12 @@
+import Paper from "@mui/material/Paper";
+import Grid from "@mui/material/Grid";
+import { Typography } from "@mui/material";
+import { Box } from "@mui/system";
 import * as React from 'react';
-import { Button, CardActions, Paper, Grid, Typography, Box } from '@mui/material';
+ 
+import { Button, CardActionArea, CardActions } from '@mui/material';
+
 import { addCarToCart, getCart, getCarById } from "../utils/API";
-
-
 
 
 const FeaturedDetails = ({ featuredCar, setFeaturedCar, setIsLoading, token, cartItems, setCartItems }) => {

@@ -1,67 +1,93 @@
-import * as React from "react";
-import { useOutletContext } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { getOrders } from "../utils/API";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Title from "./Title";
-import { Typography } from "@mui/material";
+import * as React from 'react';
+import Link from '@mui/material/Link';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Title from './Title';
 
-const Orders = () => {
-  const [token] = useOutletContext();
-  const [orders, setOrders] = useState([]);
-
-  useEffect(() => {
-    async function getUserOrders() {
-        const results = await getOrders(token);
-        setOrders(results);
-        console.log(results)
-    }
-    getUserOrders();
-  }, [token]);
-
-  return (
-    <>
-      {orders.length === 0 ?             
-        <Typography align="center">No Recent Orders</Typography>
-        :
-        <>
-          <Title>Recent Orders</Title>
-          <Table size="small">
-            <TableHead>
-              <TableRow>
-                <TableCell align="left">Date</TableCell>
-                <TableCell align="left">Order</TableCell>
-                <TableCell align="left">Status</TableCell>
-                <TableCell align="right">Total Amount</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {
-              ((data) => {
-                  return (
-                  <TableRow key={data.id}>
-                    <TableCell align="left">{data.date}</TableCell>
-                    {data.items.map((item, index) => {
-                      return(
-                        <TableCell key={index}> {item.name} </TableCell>
-                      )
-                    })}
-                    <TableCell align="left">{data.status}</TableCell>
-                    <TableCell align="right">{`$${data.total}`}</TableCell>
-                  </TableRow>
-                  )
-                }
-              )}
-            </TableBody>
-          </Table>
-        </>
-      }      
-    </>
-  );
+// Generate Order Data
+function createData(id, date, name, shipTo, paymentMethod, amount) {
+  return { id, date, name, shipTo, paymentMethod, amount };
 }
 
-export default Orders;
+const rows = [
+  createData(
+    0,
+    '21 Mar, 2023',
+    'Rick Flair',
+    'Oakland, CA',
+    'VISA ⠀•••• 3719',
+    60.44,
+  ),
+  createData(
+    0,
+    '21 Mar, 2023',
+    'Rick Flair',
+    'Oakland, CA',
+    'VISA ⠀•••• 3719',
+    60.44,
+  ),
+  createData(
+    0,
+    '21 Mar, 2023',
+    'Rick Flair',
+    'Oakland, CA',
+    'VISA ⠀•••• 3719',
+    60.44,
+  ),
+  createData(
+    0,
+    '21 Mar, 2023',
+    'Rick Flair',
+    'Oakland, CA',
+    'VISA ⠀•••• 3719',
+    60.44,
+  ),
+  createData(
+    0,
+    '21 Mar, 2023',
+    'Rick Flair',
+    'Oakland, CA',
+    'VISA ⠀•••• 3719',
+    60.44,
+  ),
+];
+
+function preventDefault(event) {
+  event.preventDefault();
+}
+
+export default function Orders() {
+  return (
+    <React.Fragment>
+      <Title>Recent Orders</Title>
+      <Table size="small">
+        <TableHead>
+          <TableRow>
+            <TableCell>Date</TableCell>
+            <TableCell>Name</TableCell>
+            <TableCell>Ship To</TableCell>
+            <TableCell>Payment Method</TableCell>
+            <TableCell align="right">Sale Amount</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows.map((row) => (
+            <TableRow key={row.id}>
+              <TableCell>{row.date}</TableCell>
+              <TableCell>{row.name}</TableCell>
+              <TableCell>{row.shipTo}</TableCell>
+              <TableCell>{row.paymentMethod}</TableCell>
+              <TableCell align="right">{`$${row.amount}`}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+      <Link color="primary" href="#" onClick={preventDefault} sx={{ mt: 3 }}>
+        See more orders
+      </Link>
+    </React.Fragment>
+  );
+}

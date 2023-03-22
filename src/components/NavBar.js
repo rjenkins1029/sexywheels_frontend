@@ -112,9 +112,9 @@ export default function ButtonAppBar({ token, setToken, adminToken, setAdminToke
                     <Button color="inherit" href="/login">Login</Button>
                   }
                   {
-                    href !== BASE_URL + 'cart' 
+                    href !== BASE_URL + 'checkout' 
                     && 
-                    <Button color="inherit" href="/cart">
+                    <Button color="inherit" href="/checkout">
                         Cart
                     </Button>
                   }
@@ -175,14 +175,14 @@ export default function ButtonAppBar({ token, setToken, adminToken, setAdminToke
             {
               !matches
               &&
-              href !== BASE_URL + 'cart' 
+              href !== BASE_URL + 'checkout' 
               && 
               <IconButton
                 size="large"
                 color="inherit"
-                title="Cart" 
-                aria-label="cart"
-                href="/cart"
+                title="Checkout" 
+                aria-label="checkout"
+                href="/checkout"
               >
                 <Badge badgeContent={cartItems} color="secondary">
                   <ShoppingCartIcon />

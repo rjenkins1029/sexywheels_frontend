@@ -10,7 +10,7 @@ import Register from "./pages/Register";
 import Root from "./pages/Root";
 import Admin from "./pages/Admin";
 import Profile from "./pages/Profile";
-import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout";
 
 const router = createBrowserRouter([
   {
@@ -30,17 +30,14 @@ const router = createBrowserRouter([
             path: "home",
             element: <Home />,
           },
-          {
-            path: "admin",
-            element: <Admin />
-          },
+          
           {
             path: "profile",
             element: <Profile />
           },
           {
-            path: "cart",
-            element: <Cart />
+            path: "Checkout",
+            element: <Checkout />
           }
         ],
   },

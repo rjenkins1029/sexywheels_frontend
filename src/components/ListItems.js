@@ -18,12 +18,7 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Edit Info" />
     </ListItemButton>
-    <ListItemButton>
-      <ListItemIcon>
-        <ShoppingCartIcon />
-      </ListItemIcon>
-      <ListItemText primary="Recent Orders" />
-    </ListItemButton>
+    
     
       
   </React.Fragment>

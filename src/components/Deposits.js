@@ -12,10 +12,10 @@ export default function Deposits() {
     <React.Fragment>
       <Title>Shipping Address</Title>
       <Typography component="p" variant="h4">
-        123 Main St
+      1 MUI Drive
       </Typography>
       <Typography color="text.secondary" sx={{ flex: 1 }}>
-        Oakland, CA 95666
+      Reactville, Anytown, 99999, USA
       </Typography>
       <div>
         <Link color="primary" href="#" onClick={preventDefault}>

@@ -62,15 +62,7 @@ export default function Album() {
             <Typography variant="h5" align="center" color="text.secondary" paragraph>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Consectetur libero id faucibus nisl tincidunt.
             </Typography>
-            <Stack
-              sx={{ pt: 4 }}
-              direction="row"
-              spacing={2}
-              justifyContent="center"
-            >
-              <Button variant="contained">Register an Account with us!</Button>
-              <Button variant="outlined">Profile</Button>
-            </Stack>
+            
           </Container>
         </Box>
         <Container sx={{ py: 8 }} maxWidth="md">
@@ -87,7 +79,7 @@ export default function Album() {
                       // 16:9
                       pt: '56.25%',
                     }}
-                    image="https://th.bing.com/th/id/OIP.6hOyecj0q6l3QxlSGztSpwHaHa?pid=ImgDet&rs=1"
+                    image="https://assets.wired.com/photos/w_1210/wp-content/uploads/2016/09/HotwheelsTA.jpg"
                     alt="random"
                   />
                   <CardContent sx={{ flexGrow: 1 }}>
